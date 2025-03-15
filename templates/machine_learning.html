@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos de Machine Learning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Seleccionar Modelo de Machine Learning: {{ filename }}</h1>
+        <nav>
+            <a href="{{ url_for('principal.upload_file') }}">Cargar nuevo CSV</a>
+            <a href="{{ url_for('data_processing.process_data', filename=filename) }}">Volver al Procesamiento de Datos</a>
+            <a href="{{ url_for('data_analysis.analyze_data', filename=filename) }}">Ir a Análisis</a>
+            <a href="{{ url_for('data_visualization.visualize_data', filename=filename) }}">Ir a Visualización</a>
+            <a href="{{ url_for('metrics.evaluate_metrics', filename=filename) }}">Ir a Métricas</a>
+            <a href="{{ url_for('outliers.handle_outliers', filename=filename) }}">Ir a Outliers</a>
+        </nav>
+    </header>
+
+    <section class="model-selection">
+        <h2>Selecciona el modelo y las columnas</h2>
+        <form method="POST" action="{{ url_for('machine_learning.machine_learning', filename=filename) }}">
+            <label for="model_type">Modelo de Machine Learning:</label><br>
+            <select id="model_type" name="model_type">
+                <option value="linear_regression">Regresión Lineal</option>
+                <option value="decision_tree">Árbol de Decisiones</option>
+                <option value="random_forest">Bosque Aleatorio</option>
+                <option value="neural_network">Red Neuronal</option>
+            </select><br><br>
+
+            <label for="columns">Selecciona las columnas:</label><br>
+            {% for column in columns %}
+                <input type="checkbox" name="columns" value="{{ column }}"> {{ column }}<br>
+            {% endfor %}
+            <br>
+            <button type="submit">Entrenar Modelo</button>
+        </form>
+    </section>
+
+    {% if model_results %}
+        <section class="model-results">
+            <h3>Resultados del Modelo</h3>
+            <p><strong>Mean Squared Error (MSE):</strong> {{ model_results.mse }}</p>
+            <p><strong>R^2 Score:</strong> {{ model_results.r2 }}</p>
+        </section>
+    {% endif %}
+
+    <footer>
+        <p>&copy; 2025 Tu Aplicación de Ciencia de Datos</p>
+    </footer>
+</body>
+</html>

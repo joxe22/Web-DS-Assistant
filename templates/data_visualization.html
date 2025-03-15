@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización de Datos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Visualización de Datos: {{ filename }}</h1>
+        <nav>
+            <a href="{{ url_for('principal.upload_file') }}">Cargar nuevo CSV</a>
+            <a href="{{ url_for('data_processing.process_data', filename=filename) }}">Volver al Procesamiento de Datos</a>
+            <a href="{{ url_for('data_analysis.analyze_data', filename=filename) }}">Ir a Análisis</a>
+            <a href="{{ url_for('machine_learning.machine_learning', filename=filename) }}">Ir a Machine Learning</a>
+        </nav>
+    </header>
+
+    <section class="visualization-selection">
+        <h2>Selecciona el tipo de gráfico y las columnas</h2>
+        <form method="POST" action="{{ url_for('data_visualization.visualize_data', filename=filename) }}">
+            <label for="plot_type">Tipo de gráfico:</label><br>
+            <select id="plot_type" name="plot_type">
+                <option value="scatter">Scatter Plot</option>
+                <option value="line">Line Plot</option>
+                <option value="bar">Bar Chart</option>
+                <option value="box">Box Plot</option>
+                <option value="heatmap">Heatmap</option>
+            </select><br><br>
+
+            <label for="columns">Selecciona las columnas:</label><br>
+            {% for column in columns %}
+                <input type="checkbox" name="columns" value="{{ column }}"> {{ column }}<br>
+            {% endfor %}
+            <br>
+            <button type="submit">Generar gráfico</button>
+        </form>
+    </section>
+
+    {% if img_url %}
+        <section class="visualization-result">
+            <h3>Gráfico generado</h3>
+            <img src="{{ img_url }}" alt="Gráfico generado" style="max-width: 100%; height: auto;">
+        </section>
+    {% endif %}
+
+    <footer>
+        <p>&copy; 2025 Tu Aplicación de Ciencia de Datos</p>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,7 @@
+{
+    "python.analysis.extraPaths": [
+        "./routes",
+        "./routes"
+    ],
+    "remote.autoForwardPortsFallback": 0
+}

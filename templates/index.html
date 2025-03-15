@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Assistant by JoxAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    </head>
+    <body oneclick="closePopup(event)">
+        <div class="box">
+            <h1>📊🤖¡Welcome to our Data Assistant!🤖📊</h1>  
+    </div>
+    <p>We are here to help you analyze your Datasets👨🏼‍⚕️</p>
+    <div class="container">
+        <h2>📂Please Upload Your CSV File📂</h2>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <!-- Input oculto -->
+            <input type="file" id="fileInput" name="file" accept=".csv" required onchange="updateFileName()">
+            
+            <!-- Botón personalizado con icono -->
+            <label for="fileInput" class="custom-file-upload">
+                <span class="icon">✚</span>
+                <span id="fileName">Upload File</span>
+            </label>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    <!-- Botón flotante superior derecho -->
+    <div class="popup-container" onclick="togglePopup(event)">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+        <div class="popup-menu" id="popupMenu"> <!--Especifica el tipo de contenedor-->
+           <ul>
+            <li a href="{{url_for(chatbot.process_message)}}">Chatbot 🤖</li>
+            <li>Insights from Analysis 📊</li>
+            <li>Metrics 📈</li>
+           </ul>
+        </div>
+    </div>
+    <script>
+        function togglePopup(event){
+            event.stopPropagation();  // Evita que el clic en el botón cierre el menú inmediatamente
+            var popup = document.getElementById("popupMenu");
+            popup.classList.toggle("show");
+        }
+        function closePopup(event){
+            var popup = document.getElementById("popupMenu");
+            var button = document.querySelector(".popup-container");
+            if (!popup.contains(event.target) && !button.contains(event.target)){
+                popup.classList.remove("show");
+            }
+        }
+    </script>
+    <footer>
+        <p>&copy; 2025 Your Data Science Assistant by JoxAI</p>
+    </footer>
+</body>
+</html>

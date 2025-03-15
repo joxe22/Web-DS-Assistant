@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesamiento de Datos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Procesamiento de Datos</h1>
+        <nav>
+            <a href="{{ url_for('principal.upload_file') }}">Cargar nuevo CSV</a>
+            <a href="{{ url_for('data_analysis.analyze_data', filename=filename) }}">Ir a Análisis</a>
+        </nav>
+    </header>
+
+    <section class="data-table">
+        <h2>Vista Previa de los Datos</h2>
+        <!-- Aquí se mostrará el DataFrame en formato tabla -->
+        <table id="data-frame">
+            <thead>
+                <tr>
+                    {% for col in tables[0].columns %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in tables[0].values %}
+                    <tr>
+                        {% for cell in row %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="options">
+        <h3>Opciones de Procesamiento</h3>
+        <form method="POST" action="{{ url_for('data_processing.process_data', filename=filename) }}">
+            <button type="submit" name="action" value="drop_duplicates">Eliminar Duplicados</button>
+            <button type="submit" name="action" value="drop_na">Eliminar NaNs</button>
+            <button type="submit" name="action" value="describe">Mostrar Descripción Estadística</button>
+            <button type="submit" name="action" value="info">Mostrar Información de Datos</button>
+        </form>
+    </section>
+
+    {% if stats %}
+        <section class="stats">
+            <h3>Estadísticas Descriptivas</h3>
+            <div>{{ stats|safe }}</div>
+        </section>
+    {% endif %}
+
+    {% if info %}
+        <section class="info">
+            <h3>Información del DataFrame</h3>
+            <pre>{{ info }}</pre>
+        </section>
+    {% endif %}
+
+    <section class="temporary-changes">
+        <h3>Cambios Temporales</h3>
+        <p>Los cambios realizados se guardarán temporalmente hasta el análisis final.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Tu Aplicación de Ciencia de Datos</p>
+    </footer>
+</body>
+</html>

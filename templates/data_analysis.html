@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Datos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Análisis de Datos: {{ filename }}</h1>
+        <nav>
+            <a href="{{ url_for('principal.upload_file') }}">Cargar nuevo CSV</a>
+            <a href="{{ url_for('data_processing.process_data', filename=filename) }}">Volver al Procesamiento de Datos</a>
+            <a href="{{ url_for('data_visualization.visualize_data', filename=filename) }}">Ir a Visualización</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="column-selection">
+            <h2>Selecciona las columnas para comparar</h2>
+            <form method="POST" action="{{ url_for('data_analysis.analyze_data', filename=filename) }}">
+                <div class="checkbox-group">
+                    {% for column in columns %}
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="columns" value="{{ column }}"> {{ column }}
+                        </label>
+                    {% endfor %}
+                </div>
+                <label for="question">Haz una pregunta sobre los datos:</label>
+                <input type="text" id="question" name="question" placeholder="Ejemplo: ¿Cuál es la correlación entre las columnas seleccionadas?" required>
+                <button type="submit" class="btn-submit">Analizar</button>
+            </form>
+        </section>
+
+        {% if response %}
+            <section class="analysis-result">
+                <h3>Resultado del Análisis</h3>
+                <div class="response-container">{{ response|safe }}</div>
+            </section>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tu Aplicación de Ciencia de Datos</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Data Science Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style a href="{{url_for('static/styles', filename='chatbot.css')}}"></style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    
+    <!-- Contenedor Principal -->
+    <div class="w-full max-w-4xl p-6 bg-white shadow-lg rounded-lg">
+        <h1 class="text-3xl font-bold text-gray-800 text-center">Web Data Science Assistant</h1>
+        <p class="text-gray-600 text-center mt-2">Interact with me for Analysis, Machine Learning and More.</p>
+    </div>
+
+    <!-- Botón para abrir el chatbot -->
+    <button id="chat-toggle" class="fixed bottom-6 right-6 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg">
+        💬 Chat
+    </button>
+
+    <!-- Chatbot Pop-up -->
+    <div id="chat-container" class="hidden fixed bottom-20 right-6 w-80 bg-white shadow-lg rounded-lg">
+        <div class="p-4 border-b bg-blue-600 text-white font-semibold">
+            Data Assistant 📊
+            <button id="close-chat" class="float-right text-white">✖</button>
+        </div>
+        <div id="chat-box" class="p-4 h-60 overflow-y-auto space-y-2"></div>
+        <div class="p-2 border-t flex">
+            <input id="chat-input" type="text" class="w-full px-2 py-1 border rounded-l focus:outline-none" placeholder="Escribe tu pregunta...">
+            <button id="send-button" class="bg-blue-600 text-white px-4 py-1 rounded-r">Enviar</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static/scripts', filename='chatbot.js') }}"></script>
+
+</body>
+</html>
+

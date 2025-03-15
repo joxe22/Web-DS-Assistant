@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Métricas del Modelo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Métricas del Modelo: {{ filename }}</h1>
+    <nav>
+      <a href="{{ url_for('data_processing.process_data', filename=filename) }}">Volver al Procesamiento de Datos</a>
+      <a href="{{ url_for('data_analysis.analyze_data', filename=filename) }}">Ir a Análisis</a>
+      <a href="{{ url_for('data_visualization.visualize_data', filename=filename) }}">Ir a Visualización</a>
+      <a href="{{ url_for('principal.upload_file') }}">Volver al Inicio</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="metrics">
+      <form method="POST" action="{{ url_for('metrics.evaluate_metrics', filename=filename) }}">
+        <button type="submit" name="action" value="evaluate">Evaluar Modelo</button>
+      </form>
+
+      {% if accuracy is not none %}
+      <h2>Resultados del Modelo</h2>
+      <ul>
+        <li><strong>Accuracy:</strong> {{ accuracy }}</li>
+        <li><strong>Precisión:</strong> {{ precision }}</li>
+        <li><strong>Recall:</strong> {{ recall }}</li>
+        <li><strong>F1-score:</strong> {{ f1 }}</li>
+      </ul>
+      <form method="POST" action="{{ url_for('metrics.evaluate_metrics', filename=filename) }}">
+        <button type="submit" name="action" value="save">Guardar Resultados</button>
+      </form>
+      {% endif %}
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Tu Aplicación de Ciencia de Datos</p>
+  </footer>
+</body>
+</html>

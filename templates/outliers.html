@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratamiento de Outliers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Tratamiento de Outliers: {{ filename }}</h1>
+        <nav>
+            <a href="{{ url_for('principal.upload_file') }}">Cargar nuevo CSV</a>
+            <a href="{{ url_for('data_processing.process_data', filename=filename) }}">Volver al Procesamiento de Datos</a>
+            <a href="{{ url_for('data_analysis.analyze_data', filename=filename) }}">Ir a Análisis</a>
+            <a href="{{ url_for('data_visualization.visualize_data', filename=filename) }}">Ir a Visualización</a>
+            <a href="{{ url_for('machine_learning.machine_learning', filename=filename) }}">Ir a Machine Learning</a>
+        </nav>
+    </header>
+
+    <section class="outlier-treatment">
+        <h2>Selecciona el método para tratar outliers</h2>
+        <form method="POST" action="{{ url_for('outliers.handle_outliers', filename=filename) }}">
+            <label for="method">Método de Tratamiento:</label><br>
+            <select id="method" name="method">
+                <option value="winsorization">Winsorization</option>
+                <option value="iqr">IQR (Interquartile Range)</option>
+                <option value="random">Aleatorio</option>
+            </select><br><br>
+
+            <label for="columns">Selecciona las columnas para tratar outliers:</label><br>
+            {% for column in columns %}
+                <input type="checkbox" name="columns" value="{{ column }}"> {{ column }}<br>
+            {% endfor %}
+            <br>
+            <button type="submit">Aplicar Tratamiento</button>
+        </form>
+    </section>
+
+    <section class="outlier-results">
+        {% if tables %}
+            <h3>Datos después del tratamiento de outliers:</h3>
+            <div>{{ tables|safe }}</div>
+        {% endif %}
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Tu Aplicación de Ciencia de Datos</p>
+    </footer>
+</body>
+</html>
